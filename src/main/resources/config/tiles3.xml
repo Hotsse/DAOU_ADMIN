@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<definition name="popup_frame" template="/WEB-INF/tiles/common/layout/popup_frame.jsp">
+		<put-attribute name="head" value="/WEB-INF/tiles/common/template/head.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+		
+	<definition name="main_frame" template="/WEB-INF/tiles/common/layout/main_frame.jsp">
+		<put-attribute name="head" value="/WEB-INF/tiles/common/template/head.jsp" />
+  		<put-attribute name="gnb" value="/WEB-INF/tiles/common/template/gnb.jsp" />
+  		<put-attribute name="lnb" value="/WEB-INF/tiles/common/template/lnb.jsp" />
+  		<put-attribute name="body" value="" />
+ 	</definition>
+ 	
+ 	<!-- 팝업 -->
+ 	<definition name="*/popup*" extends="popup_frame">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/popup{2}.jsp"/>
+	</definition>
+	
+	<definition name="*/*/popup*" extends="popup_frame">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/popup{3}.jsp"/>
+	</definition>
+	
+	<!-- 메인 프레임 -->
+	<definition name="*/*" extends="main_frame">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp"/>
+	</definition>
+	
+	<definition name="*/*/*" extends="main_frame">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp"/>
+	</definition>
+		
+</tiles-definitions>
