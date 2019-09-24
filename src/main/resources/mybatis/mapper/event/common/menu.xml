@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.menu">
+
+	<select id="getMainMenuList" parameterType="map" resultType="map">
+		SELECT menu_idx as menuIdx
+			   , menu_nm as menuNm
+			   , menu_path as menuPath
+		FROM daou_admin_menu (nolock)
+		WHERE menu_lv = #{menuLv}
+			<if test="parentMenuIdx != null and parentMenuIdx != 0">
+			AND parent_menu_idx = #{parentMenuIdx}
+			</if>
+		ORDER BY sort_order ASC
+	</select>
+
+</mapper>

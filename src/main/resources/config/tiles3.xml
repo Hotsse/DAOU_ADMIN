@@ -2,12 +2,25 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-
+	
+	<!-- 레이아웃 설정 -->
+	
+	<definition name="login_frame" template="/WEB-INF/tiles/common/layout/login_frame.jsp">
+		<put-attribute name="head" value="/WEB-INF/tiles/common/template/head.jsp" />
+  		<put-attribute name="body" value="" />
+ 	</definition>
+ 	
+ 	<definition name="home_frame" template="/WEB-INF/tiles/common/layout/home_frame.jsp">
+		<put-attribute name="head" value="/WEB-INF/tiles/common/template/head.jsp" />
+  		<put-attribute name="gnb" value="/WEB-INF/tiles/common/template/gnb.jsp" />
+  		<put-attribute name="body" value="" />
+ 	</definition>
+ 	
 	<definition name="popup_frame" template="/WEB-INF/tiles/common/layout/popup_frame.jsp">
 		<put-attribute name="head" value="/WEB-INF/tiles/common/template/head.jsp" />
 		<put-attribute name="body" value="" />
 	</definition>
-		
+			
 	<definition name="main_frame" template="/WEB-INF/tiles/common/layout/main_frame.jsp">
 		<put-attribute name="head" value="/WEB-INF/tiles/common/template/head.jsp" />
   		<put-attribute name="gnb" value="/WEB-INF/tiles/common/template/gnb.jsp" />
@@ -15,6 +28,20 @@
   		<put-attribute name="body" value="" />
  	</definition>
  	
+ 	<!-- // 레이아웃 설정 -->
+ 	
+ 	<!-- 맵핑 설정 -->
+ 	
+ 	<!-- 로그인 페이지 -->
+	<definition name="login/login" extends="login_frame">
+		<put-attribute name="body" value="/WEB-INF/views/login/login.jsp"/>
+	</definition>
+	
+	<!-- 홈 페이지 -->
+	<definition name="home/main" extends="home_frame">
+		<put-attribute name="body" value="/WEB-INF/views/home/main.jsp"/>
+	</definition>
+	 	
  	<!-- 팝업 -->
  	<definition name="*/popup*" extends="popup_frame">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/popup{2}.jsp"/>
@@ -32,5 +59,7 @@
 	<definition name="*/*/*" extends="main_frame">
 		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}/{3}.jsp"/>
 	</definition>
+	
+	<!-- // 맵핑 설정 -->
 		
 </tiles-definitions>
