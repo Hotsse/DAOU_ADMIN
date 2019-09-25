@@ -8,7 +8,8 @@ public class MemberVO {
 	private String userId;
 	private String userNm;
 	private int userDept;
-	private int userRole;	
+	private int userRole;
+	private String isAdminYn;
 	private String currentIp;
 	
 	public String getUserId() {
@@ -35,6 +36,12 @@ public class MemberVO {
 	public void setUserRole(int userRole) {
 		this.userRole = userRole;
 	}
+	public String getIsAdminYn() {
+		return isAdminYn;
+	}
+	public void setIsAdminYn(String isAdminYn) {
+		this.isAdminYn = isAdminYn;
+	}
 	public String getCurrentIp() {
 		return currentIp;
 	}
@@ -45,7 +52,6 @@ public class MemberVO {
 	@Override
 	public String toString() {
 		return "MemberVO [userId=" + userId + ", userNm=" + userNm + ", userDept=" + userDept + ", userRole=" + userRole
-				+ ", currentIp=" + currentIp + "]";
+				+ ", isAdminYn=" + isAdminYn + ", currentIp=" + currentIp + "]";
 	}
-	
 }

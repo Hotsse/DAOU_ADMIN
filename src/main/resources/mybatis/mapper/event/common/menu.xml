@@ -1,8 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="common.menu">
 
-	<select id="getMainMenuList" parameterType="map" resultType="map">
+	<select id="getMenu" parameterType="map" resultType="map">
+		SELECT menu_idx as menuIdx
+			, menu_nm as menuNm
+			, menu_path as menuPath
+			, menu_lv as menuLv
+			, parent_menu_idx as parentMenuIdx
+			, sort_order as sortOrder
+		FROM daou_admin_menu (nolock)
+		WHERE menu_idx = #{menuIdx}
+	</select>
+		
+	<select id="getMenuList" parameterType="map" resultType="map">
 		SELECT menu_idx as menuIdx
 			   , menu_nm as menuNm
 			   , menu_path as menuPath
@@ -14,9 +26,53 @@
 		ORDER BY sort_order ASC
 	</select>
 	
+	<select id="getAllMenuList" resultType="map">
+		;WITH CTE (menu_idx, menu_nm, menu_path, menu_lv, parent_menu_idx, sort_order, reg_id, reg_dt, tree_order) AS (
+			(
+				SELECT a.menu_idx
+					, a.menu_nm
+					, a.menu_path
+					, a.menu_lv
+					, a.parent_menu_idx
+					, a.sort_order
+					, a.reg_id
+					, a.reg_dt
+					, CONVERT(VARCHAR(255), RIGHT('00000' + CONVERT(VARCHAR(5), a.sort_order), 5)) as tree_order
+				FROM daou_admin_menu a
+				WHERE parent_menu_idx = 0
+			)
+			UNION ALL
+			(
+				SELECT b.menu_idx
+					, b.menu_nm
+					, b.menu_path
+					, b.menu_lv
+					, b.parent_menu_idx
+					, b.sort_order
+					, b.reg_id
+					, b.reg_dt
+					, CONVERT(VARCHAR(255), CONVERT(NVARCHAR, c.tree_order) + ' > ' + RIGHT('00000' + CONVERT(VARCHAR(5), b.sort_order), 5)) as tree_order
+				FROM daou_admin_menu b
+					INNER JOIN CTE c
+					ON b.parent_menu_idx = c.menu_idx
+			)
+		)
+		SELECT menu_idx as menuIdx
+			, menu_nm as menuNm
+			, menu_path as menuPath
+			, menu_lv as menuLv
+			, parent_menu_idx as parentMenuIdx
+			, sort_order as sortOrder
+			, reg_id as regId
+			, reg_dt as regDt
+		FROM CTE
+		ORDER BY tree_order
+	</select>
+	
 	<select id="getMenuAuth" parameterType="map" resultType="com.daou.admin.common.vo.MenuAuthVO">
 		SELECT auth.is_retrieve_yn as isRetrieveYn
 			, auth.is_write_yn as isWriteYn
+			, auth.is_delete_yn as isDeleteYn
 			, auth.is_download_yn as isDownloadYn
 		FROM daou_admin_menu menu (nolock)
 			INNER JOIN daou_admin_menu_auth auth (nolock)
@@ -25,5 +81,47 @@
 			AND auth.dept_idx = #{userDept}
 			AND auth.role_idx = #{userRole}
 	</select>
+	
+	<insert id="insertMenu" parameterType="map">
+		INSERT INTO daou_admin_menu (
+			menu_nm
+			, menu_path
+			, menu_lv
+			, parent_menu_idx
+			, sort_order
+			, reg_id
+			, reg_dt
+			, mod_id
+			, mod_dt
+		)
+		VALUES (
+		#{menuNm}
+		, #{menuPath}
+		, #{menuLv}
+		, #{parentMenuIdx}
+		, #{sortOrder}
+		, #{userId}
+		, GETDATE()
+		, null
+		, null
+		)
+	</insert>
+	
+	<update id="updateMenu" parameterType="map">
+		UPDATE daou_admin_menu
+		SET menu_nm = #{menuNm}
+			, menu_path = #{menuPath}
+			, menu_lv = #{menuLv}
+			, parent_menu_idx = #{parentMenuIdx}
+			, sort_order = #{sortOrder}
+			, mod_id = #{userId}
+			, mod_dt = GETDATE()
+		WHERE menu_idx = #{menuIdx}
+	</update>
+	
+	<delete id="deleteMenu" parameterType="map">
+		DELETE FROM daou_admin_menu
+		WHERE menu_idx = #{menuIdx}
+	</delete>
 
 </mapper>

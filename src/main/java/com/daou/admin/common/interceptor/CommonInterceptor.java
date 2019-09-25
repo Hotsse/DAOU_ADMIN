@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.daou.admin.common.service.CommonService;
 import com.daou.admin.login.vo.MemberVO;
+import com.daou.admin.manager.MenuService;
 
 import ch.qos.logback.classic.Logger;
 
@@ -20,7 +20,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 	protected final Logger logger = (Logger) LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	private CommonService commonService;
+	private MenuService menuService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
@@ -31,7 +31,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 		if(!isAuthExist) return false;
 		
 		if(!isRequestAjax(req)) {
-			this.commonService.getMainMenuList(req);
+			this.menuService.getMenuList(req);
 		}
 		
 		return true;

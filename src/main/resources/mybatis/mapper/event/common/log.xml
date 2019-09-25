@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="common.log">
+	
+	<insert id="insertLog" parameterType="com.daou.admin.log.vo.LogVO">
+		INSERT INTO daou_admin_log (
+			log_uri
+			, log_class
+			, log_method
+			, log_param
+			, reg_id
+			, reg_dt
+			, reg_ip
+		)
+		VALUES (
+			#{logUri}
+			,#{logClass}
+			,#{logMethod}
+			,#{logParam}
+			,#{regId}
+			,GETDATE()
+			,#{regIp}
+		)
+	</insert>
+		
+</mapper>
