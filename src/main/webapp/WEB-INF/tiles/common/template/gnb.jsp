@@ -35,6 +35,13 @@ var moveLevel2MenuPath = function() {
 	window.location.href="${level2MenuPath}";
 }
 </script>
+<c:if test="${redirectMsg ne null }">
+<script>
+$(document).ready(function(){
+	alert("${redirectMsg}");
+});
+</script>
+</c:if>
 
 
 <!-- CONTENT -->

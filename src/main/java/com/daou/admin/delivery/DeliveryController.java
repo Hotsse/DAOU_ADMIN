@@ -1,4 +1,4 @@
-package com.daou.admin.user;
+package com.daou.admin.delivery;
 
 import java.util.Map;
 
@@ -15,19 +15,20 @@ import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.common.annotation.type.ActionType;
 
 @Controller
-@RequestMapping(value="/user")
-public class UserController {
-
+@RequestMapping(value="/delivery")
+public class DeliveryController {
+	
 	@RequestMapping(value="/index", method = {RequestMethod.GET})
 	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
-		return "redirect:/user/retrieve";
+		return "redirect:/delivery/retrieve";
 	}
 	
 	@AuthAction(action=ActionType.RETRIEVE)
 	@RequestMapping(value="/retrieve", method = {RequestMethod.GET})
 	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
-		return "user/retrieve";
+		return "delivery/retrieve";
 	}
+	
 }

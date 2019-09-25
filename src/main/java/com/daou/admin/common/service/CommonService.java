@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.daou.admin.common.dao.CommonDao;
+import com.daou.admin.common.vo.MenuAuthVO;
+import com.daou.admin.login.vo.MemberVO;
 
 @Service
 public class CommonService {
@@ -83,6 +86,23 @@ public class CommonService {
 		req.setAttribute("level1MenuPath", currentLevel1Path);
 		req.setAttribute("level2MenuPath", currentLevel2Path);
 		req.setAttribute("level3MenuPath", currentLevel3Path);
+	}
+	
+	public MenuAuthVO getMenuAuth(String menuPath, HttpServletRequest req) {
+		
+		MenuAuthVO menuAuth = null;
+				
+		try {
+			HttpSession session = req.getSession();
+			MemberVO member = (MemberVO) session.getAttribute("member");
+			
+			menuAuth = this.commonDao.getMenuAuth(menuPath, member.getUserDept(), member.getUserRole());
+		}
+		catch(NullPointerException npe) {
+			npe.printStackTrace();
+		}
+		
+		return menuAuth;
 	}
 	
 	private String parseUrlPathByLevel(String origin, int level) {

@@ -13,5 +13,17 @@
 			</if>
 		ORDER BY sort_order ASC
 	</select>
+	
+	<select id="getMenuAuth" parameterType="map" resultType="com.daou.admin.common.vo.MenuAuthVO">
+		SELECT auth.is_retrieve_yn as isRetrieveYn
+			, auth.is_write_yn as isWriteYn
+			, auth.is_download_yn as isDownloadYn
+		FROM daou_admin_menu menu (nolock)
+			INNER JOIN daou_admin_menu_auth auth (nolock)
+				ON menu.menu_idx = auth.menu_idx
+		WHERE menu.menu_path = #{menuPath}
+			AND auth.dept_idx = #{userDept}
+			AND auth.role_idx = #{userRole}
+	</select>
 
 </mapper>
