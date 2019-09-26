@@ -9,18 +9,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DAOU Admin</title>
 
-<!-- Bootstrap -->
-<link href="//img.eduwill.net/resources/ngene/live/vendors/bootstrap/css/bootstrap.css" rel="stylesheet">
+<!-- bootstrap css -->
+<link href="//img.eduwill.net/resources/daou/css/bootstrap.css" rel="stylesheet">
 
-<!-- styles -->  
+<!-- custom css -->  
 <link href="//img.eduwill.net/resources/daou/css/styles.css" rel="stylesheet">
 <link href="//img.eduwill.net/resources/daou/css/common.css" rel="stylesheet">
 <link href="//img.eduwill.net/resources/daou/css/custom.css" rel="stylesheet">
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script type="text/javascript" src="//img.eduwill.net/resources/ngene/live/js/jquery-1.8.3.min.js"></script>
-<script type="text/javascript" src="//img.eduwill.net/resources/ngene/live/js/jquery-ui.js"></script>
-<script type="text/javascript" src="//img.eduwill.net/resources/ngene/live/js/jquery.form.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="//img.eduwill.net/resources/daou/js/jquery-1.8.3.min.js"></script>
 
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="//img.eduwill.net/resources/ngene/live/vendors/bootstrap/js/bootstrap.min.js"></script>
+<!-- bootstrap js -->
+<script src="//img.eduwill.net/resources/daou/js/bootstrap.min.js"></script>
+
+<c:if test="${redirectMsg ne null }">
+<script type="text/javascript">
+$(document).ready(function(){
+	alert("${redirectMsg}");
+});
+</script>
+</c:if>

@@ -14,19 +14,11 @@ var moveLevel2MenuPath = function() {
 }
 </script>
 
-<c:if test="${redirectMsg ne null }">
-<script type="text/javascript">
-$(document).ready(function(){
-	alert("${redirectMsg}");
-});
-</script>
-</c:if>
-
 <!-- CONTENT -->
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/home/main" style="background:url('https://img.eduwill.net/resources/daou/logo.png') !important; background-size: cover !important;">
+			<a class="navbar-brand" href="/home/main" style="background:url('https://img.eduwill.net/resources/daou/images/logo.png') !important; background-size: cover !important;">
 				<!--  -->
 			</a>
 		</div>
