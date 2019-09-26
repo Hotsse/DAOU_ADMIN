@@ -37,6 +37,20 @@ public class LoginService {
 		return member;
 	}
 	
+	public String selectLastIp(String userId) throws Exception {
+		
+		String lastIp = null;
+		
+		try {
+			lastIp = this.loginDao.selectLastIp(userId);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return lastIp;		
+	}
+	
 	public boolean setMemberSession(MemberVO member, HttpServletRequest req) throws Exception {
 		
 		try {			

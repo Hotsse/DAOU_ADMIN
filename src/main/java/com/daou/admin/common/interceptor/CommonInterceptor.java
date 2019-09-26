@@ -18,6 +18,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.common.annotation.type.ActionType;
+import com.daou.admin.common.annotation.type.AuthType;
+import com.daou.admin.login.LoginService;
 import com.daou.admin.login.vo.MemberVO;
 import com.daou.admin.manager.menu.MenuService;
 import com.daou.admin.manager.menu.vo.MenuAuthVO;
@@ -32,9 +34,12 @@ public class CommonInterceptor implements HandlerInterceptor {
 	@Autowired
 	private MenuService menuService;
 	
+	@Autowired
+	private LoginService loginService;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
-		
+				
 		// 로그인 페이지는 인증 처리 없음
 		if(req.getRequestURL().toString().contains("/login"))return true;
 		
@@ -62,18 +67,30 @@ public class CommonInterceptor implements HandlerInterceptor {
 			
 			// 인증 세션 없을 시
 			if(member == null) {
-				System.out.println("member is null");
-				logger.debug("member is null");
 				res.sendRedirect("/login/logout");
 				return false;
 			}
 			
-			// 로그인시 IP != 현재 IP
-			String currentIp = req.getRemoteAddr();
-			if(!currentIp.equals(member.getCurrentIp())){
-				System.out.println("currentIp != memberIp");
-				logger.debug("currentIp != memberIp");
-				res.sendRedirect("/login/logout");
+			String accessIp = req.getRemoteAddr();
+			
+			// 세션 IP != 현재 IP			
+			if(!accessIp.equals(member.getCurrentIp())){
+				this.logger.warn("Forged session access was detected.");
+				this.logger.warn("userId = " + member.getUserId() + " / " + "accessIp = " + accessIp);
+				this.logger.warn("uri = " + req.getRequestURI());
+				restrictUnauthorized(req, res, AuthType.ILLEGAL);
+				
+				return false;
+			}
+			
+			// DB IP != 현재 IP (중복 로그인 방지)
+			String lastIp = this.loginService.selectLastIp(member.getUserId());
+			if(lastIp == null || !accessIp.equals(lastIp)) {
+				this.logger.warn("Duplicate login detected.");
+				this.logger.warn("userId = " + member.getUserId() + " / " + "accessIp = " + accessIp);
+				this.logger.warn("uri = " + req.getRequestURI());
+				restrictUnauthorized(req, res, AuthType.ILLEGAL);
+				
 				return false;
 			}
 			
@@ -136,21 +153,10 @@ public class CommonInterceptor implements HandlerInterceptor {
 			catch(AuthenticationException ae) {
 				// 해당 권한이 없는 경우 예외 처리
 				this.logger.warn("Unauthorized access was detected.");
-				this.logger.warn("userId = " + member.getUserId() + " / " + "accessIp = " + member.getCurrentIp());
+				this.logger.warn("userId = " + member.getUserId() + " / " + "accessIp = " + req.getRemoteAddr());
 				this.logger.warn("uri = " + req.getRequestURI());
 				
-				if(isRequestAjax(req)) {
-					res.sendError(401);
-				}
-				else {
-					FlashMap flashMap = new FlashMap();
-					flashMap.put("redirectMsg", "Unauthorized");
-					FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(req);
-					flashMapManager.saveOutputFlashMap(flashMap, req, res);
-					
-					res.sendRedirect("/home/main"); // 메인으로 리다이렉팅
-				}
-				
+				restrictUnauthorized(req, res, AuthType.UNAUTHORIZED);				
 				return false;
 			}
 	    }
@@ -158,7 +164,36 @@ public class CommonInterceptor implements HandlerInterceptor {
 	    return true;
 	}
 	
-	
+	private void restrictUnauthorized(HttpServletRequest req, HttpServletResponse res, AuthType authType) {
+ 
+		try {
+			if(isRequestAjax(req)) {
+				res.sendError(401);
+			}
+			else {
+				if(authType == AuthType.UNAUTHORIZED) {
+					FlashMap flashMap = new FlashMap();
+					flashMap.put("redirectMsg", "Unauthorized Access");
+					FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(req);
+					flashMapManager.saveOutputFlashMap(flashMap, req, res);
+					
+					res.sendRedirect("/home/main"); // 메인으로 리다이렉팅
+				}
+				else if(authType == AuthType.ILLEGAL) {
+					FlashMap flashMap = new FlashMap();
+					flashMap.put("redirectMsg", "Illegal Access");
+					FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(req);
+					flashMapManager.saveOutputFlashMap(flashMap, req, res);
+					
+					res.sendRedirect("/login/logout");
+				}
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	private boolean isRequestAjax(HttpServletRequest req) {
 	    String requestedWithHeader = req.getHeader("X-Requested-With");

@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="getAllMenuList" resultType="map">
-		;WITH CTE (menu_idx, menu_nm, menu_path, menu_lv, parent_menu_idx, sort_order, reg_id, reg_dt, tree_order) AS (
+		;WITH CTE (menu_idx, menu_nm, menu_path, menu_lv, parent_menu_idx, sort_order, reg_id, reg_dt, mod_id, mod_dt, tree_order) AS (
 			(
 				SELECT a.menu_idx
 					, a.menu_nm
@@ -37,6 +37,8 @@
 					, a.sort_order
 					, a.reg_id
 					, a.reg_dt
+					, a.mod_id
+					, a.mod_dt
 					, CONVERT(VARCHAR(255), RIGHT('00000' + CONVERT(VARCHAR(5), a.sort_order), 5)) as tree_order
 				FROM daou_admin_menu a
 				WHERE parent_menu_idx = 0
@@ -51,6 +53,8 @@
 					, b.sort_order
 					, b.reg_id
 					, b.reg_dt
+					, b.mod_id
+					, b.mod_dt
 					, CONVERT(VARCHAR(255), CONVERT(NVARCHAR, c.tree_order) + ' > ' + RIGHT('00000' + CONVERT(VARCHAR(5), b.sort_order), 5)) as tree_order
 				FROM daou_admin_menu b
 					INNER JOIN CTE c
@@ -65,6 +69,8 @@
 			, sort_order as sortOrder
 			, reg_id as regId
 			, reg_dt as regDt
+			, mod_id as modId
+			, mod_dt as modDt			
 		FROM CTE
 		ORDER BY tree_order
 	</select>

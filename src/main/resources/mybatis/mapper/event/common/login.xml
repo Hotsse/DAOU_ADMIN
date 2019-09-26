@@ -8,10 +8,16 @@
 			, user_nm as userNm
 			, user_dept as userDept
 			, user_role as userRole
-			, is_se_yn as isAdminYn
+			, is_admin_yn as isAdminYn
 		FROM daou_member (nolock)
 		WHERE user_id = #{userId}
 			AND user_pw = #{userPw}
+	</select>
+	
+	<select id="selectLastIp" parameterType="map" resultType="String">
+		SELECT current_log_ip as lastIp
+		FROM daou_member (nolock)
+		WHERE user_id = #{userId}
 	</select>
 	
 	<update id="updateCurrentLoginInfo" parameterType="map">

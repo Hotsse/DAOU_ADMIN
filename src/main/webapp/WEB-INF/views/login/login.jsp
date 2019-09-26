@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="/WEB-INF/tlds/paginator.tld" prefix="paginator" %>
 
 <div class="col-sm-4 col-sm-offset-4">
 	<form id="loginForm" action="/login/login" method="post">

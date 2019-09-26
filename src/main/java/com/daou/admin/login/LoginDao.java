@@ -20,6 +20,14 @@ public class LoginDao extends SqlSessionManager {
 		return this.eventSqlSession.selectOne("common.login.selectDaouMember", param);
 	}
 	
+	public String selectLastIp(String userId) {
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userId", userId);
+		
+		return this.eventSqlSession.selectOne("common.login.selectLastIp", param);
+	}
+	
 	public int updateCurrentLoginInfo(String userId, String currentIp) {
 		
 		Map<String, Object> param = new HashMap<String, Object>();

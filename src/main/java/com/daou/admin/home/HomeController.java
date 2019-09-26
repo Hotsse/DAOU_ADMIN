@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
-
+	
 	@RequestMapping(value="")
 	public String root() throws Exception {
 		
-		return "redirect:/login/login";
+		return "redirect:/home/main";
 	}
 	
 	@RequestMapping(value="/home/main")

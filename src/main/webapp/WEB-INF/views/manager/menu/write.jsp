@@ -2,9 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="/WEB-INF/tlds/paginator.tld" prefix="paginator" %>
 
-<script>
+<script type="text/javascript">
 	var submitInsertForm = function(){
 		if(confirm("메뉴를 등록하시겠습니까?")){
 			$("form[id=insertForm]").submit();			
@@ -28,7 +27,7 @@
 
 <h3 class="page-header">메뉴 관리 <small>등록</small>
 	<div class="btn-group" role="group" style="float: right; margin-bottom: 10px;">
-		<button type="button" class="btn btn-lg btn-default" onclick="moveLevel1MenuPath();">
+		<button type="button" class="btn btn-lg btn-default" onclick="moveLevel2MenuPath();">
 			<span class="glyphicon glyphicon-chevron-left"></span> 돌아가기
 		</button>
 	</div>
