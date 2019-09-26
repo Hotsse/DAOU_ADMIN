@@ -15,7 +15,7 @@
             <name>xssSaxFilterDefender</name>
             <class>com.navercorp.lucy.security.xss.servletfilter.defender.XssSaxFilterDefender</class>
             <init-param>
-                <param-value>lucy-xss-sax.xml</param-value>
+                <param-value>lucy-xss-superset-sax.xml</param-value>
                 <param-value>false</param-value>
             </init-param>
         </defender>
