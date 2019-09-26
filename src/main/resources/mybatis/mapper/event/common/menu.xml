@@ -69,18 +69,7 @@
 		ORDER BY tree_order
 	</select>
 	
-	<select id="getMenuAuth" parameterType="map" resultType="com.daou.admin.common.vo.MenuAuthVO">
-		SELECT auth.is_retrieve_yn as isRetrieveYn
-			, auth.is_write_yn as isWriteYn
-			, auth.is_delete_yn as isDeleteYn
-			, auth.is_download_yn as isDownloadYn
-		FROM daou_admin_menu menu (nolock)
-			INNER JOIN daou_admin_menu_auth auth (nolock)
-				ON menu.menu_idx = auth.menu_idx
-		WHERE menu.menu_path = #{menuPath}
-			AND auth.dept_idx = #{userDept}
-			AND auth.role_idx = #{userRole}
-	</select>
+	
 	
 	<insert id="insertMenu" parameterType="map">
 		INSERT INTO daou_admin_menu (
@@ -123,5 +112,102 @@
 		DELETE FROM daou_admin_menu
 		WHERE menu_idx = #{menuIdx}
 	</delete>
+	
+	
+	<select id="getMenuAuth" parameterType="map" resultType="com.daou.admin.manager.menu.vo.MenuAuthVO">
+		SELECT auth.menu_idx as menuIdx
+			, auth.dept_idx as deptIdx
+			, auth.role_idx as roleIdx 
+			, auth.is_retrieve_yn as isRetrieveYn
+			, auth.is_write_yn as isWriteYn
+			, auth.is_delete_yn as isDeleteYn
+			, auth.is_download_yn as isDownloadYn
+		FROM daou_admin_menu menu (nolock)
+			INNER JOIN daou_admin_menu_auth auth (nolock)
+				ON menu.menu_idx = auth.menu_idx
+		WHERE menu.menu_path = #{menuPath}
+			AND auth.dept_idx = #{userDept}
+			AND auth.role_idx = #{userRole}
+	</select>
+	
+	<select id="getMenuAuthList" parameterType="map" resultType="com.daou.admin.manager.menu.vo.MenuAuthVO">
+		SELECT auth.menu_idx as menuIdx
+			, auth.dept_idx as deptIdx
+			, dept.dept_nm as deptNm
+			, auth.role_idx as roleIdx
+			, role.role_nm as roleNm
+			, auth.is_retrieve_yn as isRetrieveYn
+			, auth.is_write_yn as isWriteYn
+			, auth.is_delete_yn as isDeleteYn
+			, auth.is_download_yn as isDownloadYn
+		FROM daou_admin_menu_auth auth (nolock)
+			LEFT OUTER JOIN daou_admin_dept dept (nolock)
+			ON auth.dept_idx = dept.dept_idx
+			LEFT OUTER JOIN daou_admin_role role (nolock)
+			ON auth.role_idx = role.role_idx
+		WHERE menu_idx = #{menuIdx}
+		ORDER BY auth.dept_idx ASC, auth.role_idx ASC
+	</select>
+	
+	<insert id="insertMenuAuth" parameterType="map">
+		INSERT INTO daou_admin_menu_auth (
+			menu_idx
+			, dept_idx
+			, role_idx
+			, is_retrieve_yn
+			, is_write_yn
+			, is_delete_yn
+			, is_download_yn
+			, reg_id
+			, reg_dt
+			, mod_id
+			, mod_dt
+		) VALUES
+		(
+			#{menuIdx}
+			, #{deptIdx}
+			, #{roleIdx}
+			, #{isRetrieveYn}
+			, #{isWriteYn}
+			, #{isDeleteYn}
+			, #{isDownloadYn}
+			, #{userId}
+			, GETDATE()
+			, null
+			, null
+		)
+	</insert>
+	
+	<update id="updateMenuAuth" parameterType="map">
+		UPDATE daou_admin_menu_auth
+		SET is_retrieve_yn = #{isRetrieveYn}
+			, is_write_yn = #{isWriteYn}
+			, is_delete_yn = #{isDeleteYn}
+			, is_download_yn = #{isDownloadYn}
+		WHERE menu_idx = #{menuIdx}
+			AND dept_idx = #{deptIdx}
+			AND role_idx = #{roleIdx}
+	</update>
+	
+	<delete id="deleteMenuAuth" parameterType="map">
+		DELETE FROM daou_admin_menu_auth
+		WHERE menu_idx = #{menuIdx}
+			AND dept_idx = #{deptIdx}
+			AND role_idx = #{roleIdx}
+	</delete>
+	
+	<select id="getDeptList" resultType="com.daou.admin.manager.dept.vo.DeptVO">
+		SELECT dept_idx as deptIdx
+			, dept_nm as deptNm
+		FROM daou_admin_dept (nolock)
+		ORDER BY dept_idx ASC
+	</select>
+	
+	<select id="getRoleList" resultType="com.daou.admin.manager.role.vo.RoleVO">
+		SELECT role_idx as roleIdx
+			, role_nm as roleNm
+		FROM daou_admin_role (nolock)
+		ORDER BY role_idx ASC
+	</select> 
 
 </mapper>

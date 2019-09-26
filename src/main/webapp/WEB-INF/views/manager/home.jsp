@@ -4,4 +4,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="/WEB-INF/tlds/paginator.tld" prefix="paginator" %>
 
-회원 조회 페이지
+관리자 메뉴 홈

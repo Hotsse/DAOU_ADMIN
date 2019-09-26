@@ -3,7 +3,7 @@
 
 <mapper namespace="common.log">
 	
-	<insert id="insertLog" parameterType="com.daou.admin.log.vo.LogVO">
+	<insert id="insertLog" parameterType="com.daou.admin.manager.log.vo.LogVO">
 		INSERT INTO daou_admin_log (
 			log_uri
 			, log_class

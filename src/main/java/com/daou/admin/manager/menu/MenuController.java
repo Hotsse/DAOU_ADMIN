@@ -1,4 +1,4 @@
-package com.daou.admin.manager;
+package com.daou.admin.manager.menu;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,18 +19,21 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.common.annotation.type.ActionType;
 import com.daou.admin.login.vo.MemberVO;
+import com.daou.admin.manager.dept.vo.DeptVO;
+import com.daou.admin.manager.menu.vo.MenuAuthVO;
+import com.daou.admin.manager.role.vo.RoleVO;
 
 @Controller
-@RequestMapping(value="/menu")
+@RequestMapping(value="/manager/menu")
 public class MenuController {
 
 	@Autowired
 	private MenuService menuService;
 	
-	@RequestMapping(value="/index", method = {RequestMethod.GET})
+	@RequestMapping(value="", method = {RequestMethod.GET})
 	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
-		return "redirect:/menu/retrieve";
+		return "redirect:/manager/menu/retrieve";
 	}
 	
 	@AuthAction(action=ActionType.ADMIN)
@@ -40,7 +43,7 @@ public class MenuController {
 		List<Map<String, Object>> menuList = this.menuService.getAllMenuList();
 		model.put("menuList", menuList);
 		
-		return "menu/retrieve";
+		return "manager/menu/retrieve";
 	}
 	
 	@AuthAction(action=ActionType.ADMIN)
@@ -58,7 +61,7 @@ public class MenuController {
 		}
 		catch(Exception e) {}
 		
-		return "menu/write";
+		return "manager/menu/write";
 	}
 	
 	@AuthAction(action=ActionType.ADMIN)
@@ -90,7 +93,7 @@ public class MenuController {
 			}
 		}
 		
-		return "redirect:/menu/retrieve";
+		return "redirect:/manager/menu/retrieve";
 	}
 	
 	@AuthAction(action=ActionType.ADMIN)
@@ -113,6 +116,92 @@ public class MenuController {
 		
 		return resultMap;
 	}
+	
+	
+	@AuthAction(action=ActionType.ADMIN)
+	@RequestMapping(value="/popupAuth", method = {RequestMethod.GET})
+	public String popupAuth(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		List<DeptVO> deptList = this.menuService.getDeptList();
+		List<RoleVO> roleList = this.menuService.getRoleList();
+		
+		model.put("deptList", deptList);
+		model.put("roleList", roleList);
+		
+		try {
+			int menuIdx = Integer.parseInt(param.get("menuIdx").toString());
+			List<MenuAuthVO> menuAuthList = this.menuService.getMenuAuthList(menuIdx);
+			model.put("menuAuthList", menuAuthList);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "manager/menu/popupAuth";
+	}
+	
+	@AuthAction(action=ActionType.ADMIN)
+	@RequestMapping(value="/insertAuth", method = {RequestMethod.POST})
+	@ResponseBody
+	public Map<String, Object> insertAuth(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		MemberVO member = (MemberVO)req.getSession().getAttribute("member");
+		param.put("userId", member.getUserId());
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean result = this.menuService.insertMenuAuth(param);
+		if(result) {
+			resultMap.put("result", "OK");
+		}
+		else {
+			resultMap.put("result", "ERROR");
+		}
+		
+		return resultMap;
+	}
+	
+	@AuthAction(action=ActionType.ADMIN)
+	@RequestMapping(value="/updateAuth", method = {RequestMethod.POST})
+	@ResponseBody
+	public Map<String, Object> updateAuth(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		MemberVO member = (MemberVO)req.getSession().getAttribute("member");
+		param.put("userId", member.getUserId());
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean result = this.menuService.updateMenuAuth(param);
+		if(result) {
+			resultMap.put("result", "OK");
+		}
+		else {
+			resultMap.put("result", "ERROR");
+		}
+		
+		return resultMap;
+	}
+	
+	@AuthAction(action=ActionType.ADMIN)
+	@RequestMapping(value="/deleteAuth", method = {RequestMethod.POST})
+	@ResponseBody
+	public Map<String, Object> deleteAuth(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		MemberVO member = (MemberVO)req.getSession().getAttribute("member");
+		param.put("userId", member.getUserId());		
+		
+		boolean result = this.menuService.deleteMenuAuth(param);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		if(result) {
+			resultMap.put("result", "OK");
+		}
+		else {
+			resultMap.put("result", "ERROR");
+		}
+		
+		return resultMap;
+	}
+	
+	
 	
 	
 }

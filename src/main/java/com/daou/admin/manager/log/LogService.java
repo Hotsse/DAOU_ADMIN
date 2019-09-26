@@ -1,9 +1,9 @@
-package com.daou.admin.log;
+package com.daou.admin.manager.log;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.daou.admin.log.vo.LogVO;
+import com.daou.admin.manager.log.vo.LogVO;
 
 @Service
 public class LogService {

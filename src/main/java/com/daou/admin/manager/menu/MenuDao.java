@@ -1,4 +1,4 @@
-package com.daou.admin.manager;
+package com.daou.admin.manager.menu;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,11 +7,14 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.daou.admin.common.manage.SqlSessionManager;
-import com.daou.admin.common.vo.MenuAuthVO;
+import com.daou.admin.manager.dept.vo.DeptVO;
+import com.daou.admin.manager.menu.vo.MenuAuthVO;
+import com.daou.admin.manager.role.vo.RoleVO;
 
 @Repository
 public class MenuDao extends SqlSessionManager {
 	
+	// menu
 	public List<Map<String, Object>> getAllMenuList(){
 		return this.eventSqlSession.selectList("common.menu.getAllMenuList");
 	}	
@@ -47,7 +50,7 @@ public class MenuDao extends SqlSessionManager {
 	
 	
 	
-	
+	// menu/auth
 	public MenuAuthVO getMenuAuth(String menuPath, int userDept, int userRole) {
 		
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -56,6 +59,36 @@ public class MenuDao extends SqlSessionManager {
 		param.put("userRole", userRole);
 		
 		return this.eventSqlSession.selectOne("common.menu.getMenuAuth", param);		
+	}
+	
+	public List<MenuAuthVO> getMenuAuthList(int menuIdx){
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("menuIdx", menuIdx);
+		
+		return this.eventSqlSession.selectList("common.menu.getMenuAuthList", param);
+	}
+	
+	public int insertMenuAuth(Map<String, Object> param) {
+		return this.eventSqlSession.insert("common.menu.insertMenuAuth", param);
+	}
+	
+	public int updateMenuAuth(Map<String, Object> param) {
+		return this.eventSqlSession.update("common.menu.updateMenuAuth", param);
+	}
+	
+	public int deleteMenuAuth(Map<String, Object> param) {
+		return this.eventSqlSession.delete("common.menu.deleteMenuAuth", param);
+	}
+	
+	// dept
+	public List<DeptVO> getDeptList() {
+		return this.eventSqlSession.selectList("common.menu.getDeptList");
+	}
+	
+	// role
+	public List<RoleVO> getRoleList() {
+		return this.eventSqlSession.selectList("common.menu.getRoleList");
 	}
 
 }

@@ -57,7 +57,7 @@ $(document).ready(function(){
 			</button>
 			-->
 			
-			<a class="navbar-brand" href="/home/main">
+			<a class="navbar-brand" href="/home/main" style="background:url('https://img.eduwill.net/resources/daou/logo.png') !important; background-size: cover !important;">
 				<!-- <img src="#" /> -->
 			</a>
 		</div>

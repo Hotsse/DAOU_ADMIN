@@ -11,23 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.daou.admin.common.annotation.AuthAction;
-import com.daou.admin.common.annotation.type.ActionType;
-
 @Controller
 @RequestMapping(value="/user")
-public class UserController {
+public class UserHomeController {
 
-	@RequestMapping(value="/index", method = {RequestMethod.GET})
+	@RequestMapping(value="", method = {RequestMethod.GET})
 	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
-		return "redirect:/user/retrieve";
+		return "user/home";
 	}
 	
-	@AuthAction(action=ActionType.RETRIEVE)
-	@RequestMapping(value="/retrieve", method = {RequestMethod.GET})
-	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
-		
-		return "user/retrieve";
-	}
 }

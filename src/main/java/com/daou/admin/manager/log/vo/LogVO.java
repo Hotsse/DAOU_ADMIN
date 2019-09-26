@@ -1,4 +1,4 @@
-package com.daou.admin.log.vo;
+package com.daou.admin.manager.log.vo;
 
 import lombok.Data;
 

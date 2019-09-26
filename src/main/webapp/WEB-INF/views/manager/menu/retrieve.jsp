@@ -4,21 +4,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="/WEB-INF/tlds/paginator.tld" prefix="paginator" %>
 
-<script>
+<script type="text/javascript">
 var moveInsertForm = function(menuIdx){
 	if(menuIdx){
-		window.location.href="${level1MenuPath}/write?menuIdx=" + menuIdx;
+		window.location.href="${level2MenuPath}/write?menuIdx=" + menuIdx;
 	}
 	else{
-		window.location.href="${level1MenuPath}/write";		
+		window.location.href="${level2MenuPath}/write";		
 	}
 	
 }
 
 var deleteMenu = function(menuIdx){
-	if( confirm("해당 메뉴를 삭제하시겠습니까?\n\n해당 작업은 복구가 불가능합니다.") ) {
+	if( confirm("해당 메뉴를 삭제하시겠습니까?\n\n해당 작업은 복구가 불가능합니다") ) {
 		$.ajax({
-			url : "${level1MenuPath}/delete"
+			url : "${level2MenuPath}/delete"
 			, type : "post"
 			, data : { menuIdx : menuIdx }
 			, dataType : "json"
@@ -35,7 +35,11 @@ var deleteMenu = function(menuIdx){
 				alert(error);
 			}
 		});
-	}		
+	}
+}
+
+var openMenuAuthPopup = function(menuIdx){	
+	window.open("${level2MenuPath}/popupAuth?menuIdx=" + menuIdx, "popupAuth", "width=500,height=650");	
 }
 </script>
 
@@ -84,6 +88,7 @@ var deleteMenu = function(menuIdx){
 			</td>
 			<td>
 				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-secondary btn-xs" onclick="javascript:openMenuAuthPopup(${list.menuIdx});">권한</button>
 					<button type="button" class="btn btn-default btn-xs" onclick="javascript:moveInsertForm(${list.menuIdx});">수정</button>
 					<button type="button" class="btn btn-danger btn-xs" onclick="javascript:deleteMenu(${list.menuIdx });">삭제</button>
 				</div>

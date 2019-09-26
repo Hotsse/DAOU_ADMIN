@@ -1,9 +1,9 @@
-package com.daou.admin.log;
+package com.daou.admin.manager.log;
 
 import org.springframework.stereotype.Repository;
 
 import com.daou.admin.common.manage.SqlSessionManager;
-import com.daou.admin.log.vo.LogVO;
+import com.daou.admin.manager.log.vo.LogVO;
 
 @Repository
 public class LogDao extends SqlSessionManager {

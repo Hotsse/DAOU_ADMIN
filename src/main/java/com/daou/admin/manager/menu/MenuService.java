@@ -1,4 +1,4 @@
-package com.daou.admin.manager;
+package com.daou.admin.manager.menu;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.daou.admin.common.vo.MenuAuthVO;
+import com.daou.admin.manager.dept.vo.DeptVO;
+import com.daou.admin.manager.menu.vo.MenuAuthVO;
+import com.daou.admin.manager.role.vo.RoleVO;
 import com.daou.admin.login.vo.MemberVO;
 
 @Service
@@ -18,6 +20,7 @@ public class MenuService {
 	@Autowired
 	private MenuDao menuDao;
 	
+	// menu
 	public List<Map<String, Object>> getAllMenuList(){
 		return this.menuDao.getAllMenuList();
 	}
@@ -144,6 +147,8 @@ public class MenuService {
 		return true;
 	}
 	
+	
+	// menu/auth
 	public MenuAuthVO getMenuAuth(String menuPath, HttpServletRequest req) {
 		
 		MenuAuthVO menuAuth = null;
@@ -151,6 +156,8 @@ public class MenuService {
 		try {
 			HttpSession session = req.getSession();
 			MemberVO member = (MemberVO) session.getAttribute("member");
+			
+			menuPath = parseUrlPathByLevel(menuPath, 2);
 			
 			menuAuth = this.menuDao.getMenuAuth(menuPath, member.getUserDept(), member.getUserRole());
 		}
@@ -161,14 +168,104 @@ public class MenuService {
 		return menuAuth;
 	}
 	
+	public List<MenuAuthVO> getMenuAuthList(int menuIdx){
+		
+		List<MenuAuthVO> menuAuthList = null;
+		
+		try {
+			menuAuthList = this.menuDao.getMenuAuthList(menuIdx);
+		}
+		catch(NullPointerException npe) {
+			npe.printStackTrace();
+		}
+		
+		return menuAuthList;
+	}
+	
+	public boolean insertMenuAuth(Map<String, Object> param) {
+		
+		int count = 0;
+		
+		try {
+			count = this.menuDao.insertMenuAuth(param);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(count <= 0)return false;
+		return true;
+	}
+	
+	public boolean updateMenuAuth(Map<String, Object> param) {
+		
+		int count = 0;
+		
+		try {
+			count = this.menuDao.updateMenuAuth(param);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(count <= 0)return false;
+		return true;
+	}
+	
+	public boolean deleteMenuAuth(Map<String, Object> param) {
+		
+		int count = 0;
+		
+		try {
+			count = this.menuDao.deleteMenuAuth(param);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(count <= 0)return false;
+		return true;
+	}
+	
+	// dept
+	public List<DeptVO> getDeptList(){
+		
+		List<DeptVO> deptList = null;
+		
+		try {
+			deptList = this.menuDao.getDeptList();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return deptList;		
+	}
+	
+	// role
+	public List<RoleVO> getRoleList(){
+		
+		List<RoleVO> roleList = null;
+		
+		try {
+			roleList = this.menuDao.getRoleList();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return roleList;
+	}
+	
+	
+	// function
 	private String parseUrlPathByLevel(String origin, int level) {
 
 		String result = "";
 		String []pathList = origin.split("/");
 
-		// 요구 레벨보다 낮은 경로 Depth 를 가지고 있으면 Empty 반환
 		if(pathList.length <= level) {
-			return "";
+			level = pathList.length - 1;
 		}
 
 		// URL 경로 파싱

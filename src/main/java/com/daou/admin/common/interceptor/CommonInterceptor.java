@@ -1,5 +1,8 @@
 package com.daou.admin.common.interceptor;
 
+import java.lang.reflect.Method;
+
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -7,10 +10,17 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.FlashMap;
+import org.springframework.web.servlet.FlashMapManager;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
+import com.daou.admin.common.annotation.AuthAction;
+import com.daou.admin.common.annotation.type.ActionType;
 import com.daou.admin.login.vo.MemberVO;
-import com.daou.admin.manager.MenuService;
+import com.daou.admin.manager.menu.MenuService;
+import com.daou.admin.manager.menu.vo.MenuAuthVO;
 
 import ch.qos.logback.classic.Logger;
 
@@ -25,21 +35,23 @@ public class CommonInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
 		
+		// 로그인 페이지는 인증 처리 없음
 		if(req.getRequestURL().toString().contains("/login"))return true;
 		
-		boolean isAuthExist = checkMemberAuth(req, res);
-		if(!isAuthExist) return false;
+		// 계정 인증 정보 확인 
+		boolean isMemberAuth = checkMemberAuth(req, res);
+		if(!isMemberAuth) return false;
 		
-		if(!isRequestAjax(req)) {
+		// 접근 메뉴 권한 확인
+		boolean isMenuAuth = checkMenuAuth(req, res, handler);
+		if(!isMenuAuth) return false;
+	    
+	    // 메뉴 리스트 획득
+	    if(!isRequestAjax(req)) {
 			this.menuService.getMenuList(req);
 		}
-		
+	    
 		return true;
-	}	
-	
-	private boolean isRequestAjax(HttpServletRequest req) {
-	    String requestedWithHeader = req.getHeader("X-Requested-With");
-	    return "XMLHttpRequest".equals(requestedWithHeader);
 	}
 	
 	private boolean checkMemberAuth(HttpServletRequest req, HttpServletResponse res) {
@@ -65,17 +77,92 @@ public class CommonInterceptor implements HandlerInterceptor {
 				return false;
 			}
 			
-			
 			// 로그
 			req.setAttribute("member", member);
-			logger.debug(member.toString());
-			
+			// this.logger.debug(member.toString());			
 		}
 		catch(Exception e) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	private boolean checkMenuAuth(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
+		// 권한 체크
+		HttpSession session = req.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		HandlerMethod hm = (HandlerMethod)handler; 
+	    Method method = hm.getMethod();
+	    AuthAction authAction = method.getAnnotation(AuthAction.class);
+	    
+	    if(authAction != null) {
+	    	try {
+				// 일반 메뉴 권한 획득
+				MenuAuthVO menuAuth = this.menuService.getMenuAuth(req.getRequestURI(), req);
+				
+				// 어드민인 경우
+				if("Y".equals(member.getIsAdminYn())) {
+					// 권한 자동 패스
+				}
+				// 일반 관리자인 경우
+				else {
+					if(menuAuth == null) { // 설정된 권한이 없는 경우
+						throw new AuthenticationException();
+					}
+					else if(authAction.action() == ActionType.ADMIN) { // 일반 관리자가 어드민 메뉴에 접근한 경우
+						throw new AuthenticationException();
+					}
+					else if(authAction.action() == ActionType.RETRIEVE
+							&& !"Y".equals(menuAuth.getIsRetrieveYn())) { // 조회 권한이 없는 경우
+						throw new AuthenticationException();
+					}
+					else if(authAction.action() == ActionType.WRITE
+							&& !"Y".equals(menuAuth.getIsWriteYn())) {	// 등록/수정 권한이 없는 경우
+						throw new AuthenticationException();
+					}
+					else if(authAction.action() == ActionType.DELETE
+							&& !"Y".equals(menuAuth.getIsDeleteYn())) {	// 삭제 권한이 없는 경우
+						throw new AuthenticationException();
+					}
+					else if(authAction.action() == ActionType.DOWNLOAD
+							&& !"Y".equals(menuAuth.getIsDownloadYn())) { // 다운로드 권한이 없는 경우
+						throw new AuthenticationException();
+					}
+				}
+				
+			}
+			catch(AuthenticationException ae) {
+				// 해당 권한이 없는 경우 예외 처리
+				this.logger.warn("Unauthorized access was detected.");
+				this.logger.warn("userId = " + member.getUserId() + " / " + "accessIp = " + member.getCurrentIp());
+				this.logger.warn("uri = " + req.getRequestURI());
+				
+				if(isRequestAjax(req)) {
+					res.sendError(401);
+				}
+				else {
+					FlashMap flashMap = new FlashMap();
+					flashMap.put("redirectMsg", "Unauthorized");
+					FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(req);
+					flashMapManager.saveOutputFlashMap(flashMap, req, res);
+					
+					res.sendRedirect("/home/main"); // 메인으로 리다이렉팅
+				}
+				
+				return false;
+			}
+	    }
+	    
+	    return true;
+	}
+	
+	
+	
+	private boolean isRequestAjax(HttpServletRequest req) {
+	    String requestedWithHeader = req.getHeader("X-Requested-With");
+	    return "XMLHttpRequest".equals(requestedWithHeader);
 	}
 	
 }

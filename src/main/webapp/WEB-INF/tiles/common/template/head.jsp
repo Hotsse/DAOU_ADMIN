@@ -25,9 +25,9 @@
 <link href="//img.eduwill.net/resources/ngene/live/vendors/fullcalendar/fullcalendar.print.css" rel="stylesheet" media="print">
 
 <!-- styles -->  
-<link href="//img.eduwill.net/resources/ngene/live/css/styles.css" rel="stylesheet">
-<link href="//img.eduwill.net/resources/ngene/live/css/common.css" rel="stylesheet">
-<link href="//img.eduwill.net/resources/ngene/live/css/custom.css" rel="stylesheet">
+<link href="//img.eduwill.net/resources/daou/css/styles.css" rel="stylesheet">
+<link href="//img.eduwill.net/resources/daou/css/common.css" rel="stylesheet">
+<link href="//img.eduwill.net/resources/daou/css/custom.css" rel="stylesheet">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
