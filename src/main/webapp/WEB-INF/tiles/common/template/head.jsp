@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<fmt:setBundle var="commonProperties" basename="properties/common" /><!-- common.properties 객체화 -->
+<fmt:setBundle var="commonProperties" basename="properties/common" />
 
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -10,7 +10,7 @@
 <title>DAOU Admin</title>
 
 <!-- bootstrap css -->
-<link href="//img.eduwill.net/resources/daou/css/bootstrap.css" rel="stylesheet">
+<link href="//img.eduwill.net/resources/ngene/live/vendors/bootstrap/css/bootstrap.css" rel="stylesheet">
 
 <!-- custom css -->  
 <link href="//img.eduwill.net/resources/daou/css/styles.css" rel="stylesheet">
