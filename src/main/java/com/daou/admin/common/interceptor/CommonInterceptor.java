@@ -27,6 +27,15 @@ import com.daou.admin.manager.menu.vo.MenuAuthVO;
 
 import ch.qos.logback.classic.Logger;
 
+/**
+ * 공통 Interceptor 정의
+ * @fileName	CommonInterceptor.java
+ * @author	hsyoon
+ */
+/**
+ * @author hsyoon
+ *
+ */
 @Component
 public class CommonInterceptor implements HandlerInterceptor {
 
@@ -60,6 +69,14 @@ public class CommonInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
+	
+	/**
+	 * 계정 인증 정보 확인
+	 * 
+	 * @param req
+	 * @param res
+	 * @return 인증 성공 여부
+	 */
 	private boolean checkMemberAuth(HttpServletRequest req, HttpServletResponse res) {
 		
 		try {
@@ -96,8 +113,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 			}
 			
 			// 로그
-			req.setAttribute("member", member);
-			// this.logger.debug(member.toString());			
+			req.setAttribute("member", member);		
 		}
 		catch(Exception e) {
 			return false;
@@ -106,6 +122,15 @@ public class CommonInterceptor implements HandlerInterceptor {
 		return true;
 	}
 	
+	/**
+	 * 메뉴 접근권한 정보 확인
+	 * 
+	 * @param req
+	 * @param res
+	 * @param handler
+	 * @return 메뉴 접근 가능여부
+	 * @throws Exception
+	 */
 	private boolean checkMenuAuth(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
 		// 권한 체크
 		HttpSession session = req.getSession();
@@ -122,7 +147,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 				
 				// 어드민인 경우
 				if("Y".equals(member.getIsAdminYn())) {
-					// 권한 자동 패스
+					// 권한 체크 자동 통과
 				}
 				// 일반 관리자인 경우
 				else {
@@ -165,6 +190,14 @@ public class CommonInterceptor implements HandlerInterceptor {
 	    return true;
 	}
 	
+	
+	/**
+	 * 미권한자에 대한 처리
+	 * 
+	 * @param req
+	 * @param res
+	 * @param authType
+	 */
 	private void restrictUnauthorized(HttpServletRequest req, HttpServletResponse res, AuthType authType) {
  
 		try {
@@ -196,6 +229,13 @@ public class CommonInterceptor implements HandlerInterceptor {
 		
 	}
 	
+	
+	/**
+	 * Request AJAX 여부 확인
+	 * 
+	 * @param req
+	 * @return
+	 */
 	private boolean isRequestAjax(HttpServletRequest req) {
 	    String requestedWithHeader = req.getHeader("X-Requested-With");
 	    return "XMLHttpRequest".equals(requestedWithHeader);

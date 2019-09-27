@@ -15,6 +15,12 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 import com.daou.admin.common.interceptor.CommonInterceptor;
 import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 
+/**
+ * Context 설정 
+ * 
+ * @fileName	ContextConfig.java
+ * @author	hsyoon
+ */
 @Configuration
 @EnableWebMvc
 public class ContextConfig implements WebMvcConfigurer {
@@ -22,6 +28,15 @@ public class ContextConfig implements WebMvcConfigurer {
 	@Autowired
 	private CommonInterceptor commonInterceptor;
 	
+	
+	/**
+	 * CORS 맵핑 설정
+	 * 
+	 * @methodName	addCorsMappings
+	 * @author			hsyoon
+	 * @param				registry
+	 * @return
+	 */
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
@@ -30,11 +45,25 @@ public class ContextConfig implements WebMvcConfigurer {
 			.allowCredentials(true);			
 	}
 	
+	/**
+	 * Interceptor 설정
+	 * @methodName	addInterceptors
+	 * @author			hsyoon
+	 * @param				registry
+	 * @return
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(commonInterceptor);
 	}
 	
+	/**
+	 * Tiles3 view resolver
+	 * 
+	 * @methodName	tilesViewResolver
+	 * @author			hsyoon
+	 * @return
+	 */
 	@Bean
 	public TilesViewResolver tilesViewResolver() {
 		final TilesViewResolver resolver = new TilesViewResolver();
@@ -42,6 +71,13 @@ public class ContextConfig implements WebMvcConfigurer {
 		return resolver;
 	}
 	
+	/**
+	 * Tiles3 configuration
+	 * 
+	 * @methodName	tilesConfigurer
+	 * @author			hsyoon
+	 * @return
+	 */
 	@Bean
 	public TilesConfigurer tilesConfigurer() {
 		final TilesConfigurer configurer = new TilesConfigurer();
@@ -49,7 +85,14 @@ public class ContextConfig implements WebMvcConfigurer {
 		configurer.setCheckRefresh(true);
 		return configurer;
 	}
-	
+		
+	/**
+	 * XSS Filter configuration
+	 * 
+	 * @methodName	getFilterRegistrationBean
+	 * @author			hsyoon
+	 * @return
+	 */
 	@Bean
     public FilterRegistrationBean<XssEscapeServletFilter> getFilterRegistrationBean(){
         FilterRegistrationBean<XssEscapeServletFilter> registrationBean = new FilterRegistrationBean<XssEscapeServletFilter>();
