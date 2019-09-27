@@ -1,5 +1,6 @@
 package com.daou.admin.common.aop;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.daou.admin.manager.log.LogService;
 import com.daou.admin.manager.log.vo.LogVO;
+import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.login.vo.MemberVO;
 
 import ch.qos.logback.classic.Logger;
@@ -61,12 +64,19 @@ public class LoggerAspect {
 		}
 		logParam += "]";
 		
+		// 활동분류(ActionType) 획득
+		MethodSignature signature = (MethodSignature) jp.getSignature();
+		Method method = signature.getMethod();		
+		AuthAction authAction = method.getAnnotation(AuthAction.class);
+		
+		
 		// 로그 객체 생성
 		LogVO logData = new LogVO();
 		logData.setLogUri(req.getRequestURI());
 		logData.setLogClass(className);
 		logData.setLogMethod(methodName);
 		logData.setLogParam(logParam);
+		logData.setLogAction(authAction.action().toString());
 		logData.setRegId(member.getUserId());
 		logData.setRegIp(req.getRemoteAddr());
 		

@@ -2,6 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="common.log">
+
+	<select id="getLogList" parameterType="map" resultType="com.daou.admin.manager.log.vo.LogVO">
+		SELECT log_idx as logIdx
+			, log_uri as logUri
+			, log_class as logClass
+			, log_method as logMethod
+			, log_param as logParam
+			, log_action as logAction
+			, reg_id as regId
+			, reg_dt as regDt
+			, reg_ip as regIp
+		FROM daou_admin_log (nolock)
+		WHERE 1=1
+		<if test=" logAction != null and logAction != '' ">
+			AND log_action = #{logAction}
+		</if>
+		<if test=" startDt != null and startDt != '' ">
+			AND reg_dt > #{startDt}
+		</if>
+		<if test=" endDt != null and endDt != '' ">
+			AND reg_dt <![CDATA[ < ]]> #{endDt}
+		</if>
+		<if test=" regId != null and regId != '' ">
+			AND reg_id = #{regId}
+		</if>
+		ORDER BY log_idx DESC		
+	</select>
 	
 	<insert id="insertLog" parameterType="com.daou.admin.manager.log.vo.LogVO">
 		INSERT INTO daou_admin_log (
@@ -9,18 +36,20 @@
 			, log_class
 			, log_method
 			, log_param
+			, log_action
 			, reg_id
 			, reg_dt
 			, reg_ip
 		)
 		VALUES (
 			#{logUri}
-			,#{logClass}
-			,#{logMethod}
-			,#{logParam}
-			,#{regId}
-			,GETDATE()
-			,#{regIp}
+			, #{logClass}
+			, #{logMethod}
+			, #{logParam}
+			, #{logAction}
+			, #{regId}
+			, GETDATE()
+			, #{regIp}
 		)
 	</insert>
 		
