@@ -148,6 +148,12 @@ public class MenuController {
 		MemberVO member = (MemberVO)req.getSession().getAttribute("member");
 		param.put("userId", member.getUserId());
 		
+		// 유효성 체크
+		if(param.get("isRetrieveYn") == null) param.put("isRetrieveYn", "N");
+		if(param.get("isWriteYn") == null) param.put("isWriteYn", "N");
+		if(param.get("isDeleteYn") == null) param.put("isDeleteYn", "N");
+		if(param.get("isDownloadYn") == null) param.put("isDownloadYn", "N");
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		boolean result = this.menuService.insertMenuAuth(param);
 		if(result) {

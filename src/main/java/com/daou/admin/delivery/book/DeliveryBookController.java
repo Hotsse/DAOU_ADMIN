@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.common.annotation.type.ActionType;
@@ -29,6 +30,30 @@ public class DeliveryBookController {
 	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
 		return "delivery/book/retrieve";
+	}
+	
+	@AuthAction(action=ActionType.WRITE)
+	@RequestMapping(value="/write", method = {RequestMethod.POST})
+	@ResponseBody
+	public String write(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		return "200 OK";
+	}
+	
+	@AuthAction(action=ActionType.DELETE)
+	@RequestMapping(value="/delete", method = {RequestMethod.POST})
+	@ResponseBody
+	public String delete(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		return "200 OK";
+	}
+	
+	@AuthAction(action=ActionType.DOWNLOAD)
+	@RequestMapping(value="/download", method = {RequestMethod.POST})
+	@ResponseBody
+	public String download(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+		
+		return "200 OK";
 	}
 	
 }

@@ -32,9 +32,13 @@
  	
  	<!-- 맵핑 설정 -->
  	
- 	<!-- 로그인 페이지 -->
+ 	<!-- 로그인/에러 페이지 -->
 	<definition name="login/login" extends="login_frame">
 		<put-attribute name="body" value="/WEB-INF/views/login/login.jsp"/>
+	</definition>
+	
+	<definition name="error/*" extends="login_frame">
+		<put-attribute name="body" value="/WEB-INF/views/error/{1}.jsp"/>
 	</definition>
 	
 	<!-- 홈 페이지 -->

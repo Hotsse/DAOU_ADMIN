@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.FlashMap;
@@ -168,7 +169,7 @@ public class CommonInterceptor implements HandlerInterceptor {
  
 		try {
 			if(isRequestAjax(req)) {
-				res.sendError(401);
+				res.sendError(HttpStatus.UNAUTHORIZED.value());
 			}
 			else {
 				if(authType == AuthType.UNAUTHORIZED) {

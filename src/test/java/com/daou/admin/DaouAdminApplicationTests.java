@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.daou.admin.manager.log.LogService;
@@ -38,6 +39,8 @@ public class DaouAdminApplicationTests {
 		for(LogVO log : logList) {
 			this.logger.debug(log.toString());
 		}
+		
+		this.logger.debug("401 = " + HttpStatus.UNAUTHORIZED.value());
 	}
 
 }
