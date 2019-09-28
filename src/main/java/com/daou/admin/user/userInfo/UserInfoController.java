@@ -15,16 +15,42 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.common.annotation.type.ActionType;
 
+/**
+ * 회원정보 관리
+ * 
+ * @author hsyoon
+ *
+ */
 @Controller
 @RequestMapping(value="/user/info")
 public class UserInfoController {
 
+	/**
+	 * 회원정보 관리 인덱스
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="", method = {RequestMethod.GET})
 	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
 		return "redirect:/user/info/retrieve";
 	}
 	
+	/**
+	 * 화원정보 조회
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@AuthAction(action=ActionType.RETRIEVE)
 	@RequestMapping(value="/retrieve", method = {RequestMethod.GET})
 	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
@@ -32,6 +58,16 @@ public class UserInfoController {
 		return "user/info/retrieve";
 	}
 	
+	/**
+	 * 회원정보 등록/수정
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@AuthAction(action=ActionType.WRITE)
 	@RequestMapping(value="/write", method = {RequestMethod.POST})
 	@ResponseBody
@@ -40,6 +76,16 @@ public class UserInfoController {
 		return "200 OK";
 	}
 	
+	/**
+	 * 회원정보 삭제
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@AuthAction(action=ActionType.DELETE)
 	@RequestMapping(value="/delete", method = {RequestMethod.POST})
 	@ResponseBody
@@ -48,6 +94,16 @@ public class UserInfoController {
 		return "200 OK";
 	}
 	
+	/**
+	 * 회원정보 다운로드
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@AuthAction(action=ActionType.DOWNLOAD)
 	@RequestMapping(value="/download", method = {RequestMethod.POST})
 	@ResponseBody

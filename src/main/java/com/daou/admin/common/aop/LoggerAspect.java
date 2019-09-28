@@ -26,6 +26,12 @@ import com.daou.admin.login.vo.MemberVO;
 
 import ch.qos.logback.classic.Logger;
 
+/**
+ * 로깅용 AOP
+ * 
+ * @author hsyoon
+ *
+ */
 @Component
 @Aspect
 public class LoggerAspect {
@@ -38,6 +44,9 @@ public class LoggerAspect {
 	@Pointcut("@annotation(com.daou.admin.common.annotation.AuthAction)")
 	public void authActionPointcut() {}
 	
+	/**
+	 * AuthAction 어노테이션이 지정된 메소드에 대해서만 AOP 수행
+	 */
 	@Before("authActionPointcut()")
 	public void beforeAuthAction(JoinPoint jp) throws Exception{
 		
@@ -67,8 +76,7 @@ public class LoggerAspect {
 		// 활동분류(ActionType) 획득
 		MethodSignature signature = (MethodSignature) jp.getSignature();
 		Method method = signature.getMethod();		
-		AuthAction authAction = method.getAnnotation(AuthAction.class);
-		
+		AuthAction authAction = method.getAnnotation(AuthAction.class);		
 		
 		// 로그 객체 생성
 		LogVO logData = new LogVO();

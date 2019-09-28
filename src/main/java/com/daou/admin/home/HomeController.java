@@ -3,6 +3,12 @@ package com.daou.admin.home;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * 메인 홈 메뉴
+ * 
+ * @author hsyoon
+ *
+ */
 @Controller
 public class HomeController {
 	

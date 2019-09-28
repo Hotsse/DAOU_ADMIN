@@ -8,12 +8,24 @@ import org.springframework.stereotype.Service;
 
 import com.daou.admin.manager.log.vo.LogVO;
 
+/**
+ * 관리자 활동 관리 Service
+ * 
+ * @author hsyoon
+ *
+ */
 @Service
 public class LogService {
 
 	@Autowired
 	private LogDao logDao;
 	
+	/**
+	 * 관리자 활동 조회
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public List<LogVO> getLogList(Map<String, Object> param){
 		
 		List<LogVO> logList = null;
@@ -28,6 +40,11 @@ public class LogService {
 		return logList;
 	}
 	
+	/**
+	 * 관리자 활동 등록
+	 * 
+	 * @param log
+	 */
 	public void insertLog(LogVO log) {
 		
 		try {

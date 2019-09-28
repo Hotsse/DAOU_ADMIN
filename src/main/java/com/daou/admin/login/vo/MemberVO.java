@@ -2,6 +2,12 @@ package com.daou.admin.login.vo;
 
 import lombok.Data;
 
+/**
+ * 관리자 정보 Value Object
+ * 
+ * @author hsyoon
+ *
+ */
 @Data
 public class MemberVO {
 	

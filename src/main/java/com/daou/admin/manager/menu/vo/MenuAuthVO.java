@@ -2,6 +2,12 @@ package com.daou.admin.manager.menu.vo;
 
 import lombok.Data;
 
+/**
+ * 메뉴별 권한 정보 Value Object
+ * 
+ * @author hsyoon
+ *
+ */
 @Data
 public class MenuAuthVO {
 	

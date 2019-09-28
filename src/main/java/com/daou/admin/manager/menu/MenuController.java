@@ -23,6 +23,12 @@ import com.daou.admin.manager.dept.vo.DeptVO;
 import com.daou.admin.manager.menu.vo.MenuAuthVO;
 import com.daou.admin.manager.role.vo.RoleVO;
 
+/**
+ * 메뉴 관리 Controller
+ * 
+ * @author hsyoon
+ *
+ */
 @Controller
 @RequestMapping(value="/manager/menu")
 public class MenuController {
@@ -30,12 +36,33 @@ public class MenuController {
 	@Autowired
 	private MenuService menuService;
 	
+	/**
+	 * 메뉴 관리 인덱스
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="", method = {RequestMethod.GET})
 	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
 		return "redirect:/manager/menu/retrieve";
 	}
 	
+	/**
+	 * 메뉴 조회
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/retrieve", method = {RequestMethod.GET})
 	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
@@ -46,6 +73,17 @@ public class MenuController {
 		return "manager/menu/retrieve";
 	}
 	
+	/**
+	 * 메뉴 등록 페이지
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/write", method = {RequestMethod.GET})
 	public String wrtie(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
@@ -64,6 +102,19 @@ public class MenuController {
 		return "manager/menu/write";
 	}
 	
+	
+	/**
+	 * 메뉴 등록/수정
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @param rttr
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/write", method = {RequestMethod.POST})
 	public String write_proc(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model
@@ -96,6 +147,17 @@ public class MenuController {
 		return "redirect:/manager/menu/retrieve";
 	}
 	
+	/**
+	 * 메뉴 삭제
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/delete", method = {RequestMethod.POST})
 	@ResponseBody
@@ -118,6 +180,17 @@ public class MenuController {
 	}
 	
 	
+	/**
+	 * 권한 관리 팝업
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/popupAuth", method = {RequestMethod.GET})
 	public String popupAuth(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
@@ -140,6 +213,17 @@ public class MenuController {
 		return "manager/menu/popupAuth";
 	}
 	
+	/**
+	 * 메뉴 권한 등록
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/insertAuth", method = {RequestMethod.POST})
 	@ResponseBody
@@ -166,6 +250,17 @@ public class MenuController {
 		return resultMap;
 	}
 	
+	/**
+	 * 메뉴 권한 수정
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 * @AuthAction ADMIN
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/updateAuth", method = {RequestMethod.POST})
 	@ResponseBody
@@ -186,6 +281,16 @@ public class MenuController {
 		return resultMap;
 	}
 	
+	/**
+	 * 메뉴 권한 삭제
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/deleteAuth", method = {RequestMethod.POST})
 	@ResponseBody
@@ -206,8 +311,5 @@ public class MenuController {
 		
 		return resultMap;
 	}
-	
-	
-	
 	
 }

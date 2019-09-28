@@ -3,7 +3,8 @@
 
 <mapper namespace="common.login">
 	
-	<select id="selectDaouMember" parameterType="map" resultType="com.daou.admin.login.vo.MemberVO">
+	<!-- 관리자 계정 정보 획득 -->
+	<select id="getDaouMember" parameterType="map" resultType="com.daou.admin.login.vo.MemberVO">
 		SELECT user_id as userId
 			, user_nm as userNm
 			, user_dept as userDept
@@ -14,12 +15,14 @@
 			AND user_pw = #{userPw}
 	</select>
 	
-	<select id="selectLastIp" parameterType="map" resultType="String">
+	<!-- 최근 로그인 IP 획득 -->
+	<select id="getLastIp" parameterType="map" resultType="String">
 		SELECT current_log_ip as lastIp
 		FROM daou_member (nolock)
 		WHERE user_id = #{userId}
 	</select>
 	
+	<!-- 최근 로그인 정보 갱신 -->
 	<update id="updateCurrentLoginInfo" parameterType="map">
 		UPDATE daou_member
 		SET current_log_ip = #{currentIp}

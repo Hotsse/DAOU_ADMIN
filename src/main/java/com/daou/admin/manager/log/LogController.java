@@ -17,6 +17,12 @@ import com.daou.admin.common.annotation.AuthAction;
 import com.daou.admin.common.annotation.type.ActionType;
 import com.daou.admin.manager.log.vo.LogVO;
 
+/**
+ * 관리자 활동 관리 Controller
+ * 
+ * @author hsyoon
+ *
+ */
 @Controller
 @RequestMapping(value="/manager/log")
 public class LogController {
@@ -24,12 +30,32 @@ public class LogController {
 	@Autowired
 	private LogService logService;
 	
+	/**
+	 * 관리자 활동 관리 인덱스
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="", method = {RequestMethod.GET})
 	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
 		
 		return "redirect:/manager/log/retrieve";
 	}
 	
+	/**
+	 * 관리자 활동 조회
+	 * 
+	 * @param req
+	 * @param res
+	 * @param param
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@AuthAction(action=ActionType.ADMIN)
 	@RequestMapping(value="/retrieve", method = {RequestMethod.GET, RequestMethod.POST})
 	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {

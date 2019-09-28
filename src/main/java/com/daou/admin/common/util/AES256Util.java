@@ -10,6 +10,12 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 
+/**
+ * AES256 암호화 모듈
+ * 
+ * @author hsyoon
+ *
+ */
 public class AES256Util {
 	
 	private String iv;

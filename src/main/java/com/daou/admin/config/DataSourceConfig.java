@@ -23,44 +23,44 @@ public class DataSourceConfig {
 	/**
 	 * DataSource 객체 생성
 	 *
-	 * @methodName	eventDataSource
+	 * @methodName	daouDataSource
 	 * @author			hsyoon
 	 * @return
 	 */
-	@Bean(name = "eventDataSource")
-	@ConfigurationProperties(prefix = "spring.datasource.event")
-	public DataSource eventDataSource() {
+	@Bean(name = "daouDataSource")
+	@ConfigurationProperties(prefix = "spring.datasource.daou")
+	public DataSource daouDataSource() {
 		return DataSourceBuilder.create().build();
 	}
 	
 	/**
 	 * SqlSessionFactory 객체 생성
 	 * 
-	 * @methodName	eventSqlSessionFactory
+	 * @methodName	daouSqlSessionFactory
 	 * @author			hsyoon
 	 * @param				dataSource
 	 * @param				applicationContext
 	 * @return
 	 * @throws			Exception
 	 */
-	@Bean(name = "eventSqlSessionFactory")
-	public SqlSessionFactory eventSqlSessionFactory(@Qualifier("eventDataSource") DataSource dataSource, ApplicationContext applicationContext) throws Exception {
+	@Bean(name = "daouSqlSessionFactory")
+	public SqlSessionFactory daouSqlSessionFactory(@Qualifier("daouDataSource") DataSource dataSource, ApplicationContext applicationContext) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
-		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/event/*/*.xml"));
+		sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/daou/*/*.xml"));
 		return sqlSessionFactoryBean.getObject();
 	}
 	
 	/**
 	 * SqlSessionTemplate 객체 생성
-	 * @methodName	eventSqlSessionTemplate
+	 * @methodName	daouSqlSessionTemplate
 	 * @author			hsyoon
 	 * @param				sqlSessionFactory
 	 * @return
 	 * @throws			Exception
 	 */
-	@Bean(name = "eventSqlSessionTemplate")
-	public SqlSessionTemplate eventSqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
+	@Bean(name = "daouSqlSessionTemplate")
+	public SqlSessionTemplate daouSqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
 

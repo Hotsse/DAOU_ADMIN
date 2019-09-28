@@ -2,6 +2,12 @@ package com.daou.admin.manager.log.vo;
 
 import lombok.Data;
 
+/**
+ * 관리자 활동 정보 VO
+ * 
+ * @author hsyoon
+ *
+ */
 @Data
 public class LogVO {
 

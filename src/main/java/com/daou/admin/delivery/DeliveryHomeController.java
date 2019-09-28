@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * 배송 메뉴
+ * 
+ * @author hsyoon
+ *
+ */
 @Controller
 @RequestMapping(value="/delivery")
 public class DeliveryHomeController {

@@ -14,6 +14,12 @@ import com.daou.admin.manager.menu.vo.MenuAuthVO;
 import com.daou.admin.manager.role.vo.RoleVO;
 import com.daou.admin.login.vo.MemberVO;
 
+/**
+ * 메뉴 관리 Service
+ * 
+ * @author hsyoon
+ *
+ */
 @Service
 public class MenuService {
 
@@ -21,18 +27,41 @@ public class MenuService {
 	private MenuDao menuDao;
 	
 	// menu
+	/**
+	 * 계층별 메뉴 리스트 획득
+	 * 
+	 * @return
+	 */
 	public List<Map<String, Object>> getAllMenuList(){
 		return this.menuDao.getAllMenuList();
 	}
 	
+	/**
+	 * 메뉴 정보 획득
+	 * 
+	 * @param menuIdx
+	 * @return
+	 */
 	public Map<String, Object> getMenu(int menuIdx){
 		return this.menuDao.getMenu(menuIdx);
 	}
 	
+	/**
+	 * 메뉴 리스트 획득
+	 * 
+	 * @param menuLv
+	 * @param parentMenuIdx
+	 * @return
+	 */
 	public List<Map<String, Object>> getMenuList(int menuLv, int parentMenuIdx){
 		return this.menuDao.getMenuList(menuLv, parentMenuIdx);
 	}
 	
+	/**
+	 * 메뉴 리스트 획득
+	 * 
+	 * @param req
+	 */
 	public void getMenuList(HttpServletRequest req) {
 
 		// 메뉴 정보변수 선언
@@ -102,6 +131,12 @@ public class MenuService {
 		req.setAttribute("level3MenuPath", currentLevel3Path);
 	}
 	
+	/**
+	 * 메뉴 등록
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public boolean insertMenu(Map<String, Object> param) {
 		
 		int count = 0;
@@ -117,6 +152,12 @@ public class MenuService {
 		return true;
 	}
 	
+	/**
+	 * 메뉴 수정
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public boolean updateMenu(Map<String, Object> param) {
 		
 		int count = 0;
@@ -132,6 +173,12 @@ public class MenuService {
 		return true;
 	}
 	
+	/**
+	 * 메뉴 삭제
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public boolean deleteMenu(Map<String, Object> param) {
 		
 		int count = 0;
@@ -149,6 +196,13 @@ public class MenuService {
 	
 	
 	// menu/auth
+	/**
+	 * 메뉴 권한 정보 획득
+	 * 
+	 * @param menuPath
+	 * @param req
+	 * @return
+	 */
 	public MenuAuthVO getMenuAuth(String menuPath, HttpServletRequest req) {
 		
 		MenuAuthVO menuAuth = null;
@@ -168,6 +222,12 @@ public class MenuService {
 		return menuAuth;
 	}
 	
+	/**
+	 * 메뉴 권한 리스트 획득
+	 * 
+	 * @param menuIdx
+	 * @return
+	 */
 	public List<MenuAuthVO> getMenuAuthList(int menuIdx){
 		
 		List<MenuAuthVO> menuAuthList = null;
@@ -182,6 +242,12 @@ public class MenuService {
 		return menuAuthList;
 	}
 	
+	/**
+	 * 메뉴 권한 등록
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public boolean insertMenuAuth(Map<String, Object> param) {
 		
 		int count = 0;
@@ -197,6 +263,12 @@ public class MenuService {
 		return true;
 	}
 	
+	/**
+	 * 메뉴 권한 수정
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public boolean updateMenuAuth(Map<String, Object> param) {
 		
 		int count = 0;
@@ -212,6 +284,12 @@ public class MenuService {
 		return true;
 	}
 	
+	/**
+	 * 메뉴 권한 삭제
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public boolean deleteMenuAuth(Map<String, Object> param) {
 		
 		int count = 0;
@@ -228,6 +306,11 @@ public class MenuService {
 	}
 	
 	// dept
+	/**
+	 * 부서 리스트 획득
+	 * 
+	 * @return
+	 */
 	public List<DeptVO> getDeptList(){
 		
 		List<DeptVO> deptList = null;
@@ -243,6 +326,11 @@ public class MenuService {
 	}
 	
 	// role
+	/**
+	 * 직책 리스트 획득
+	 * 
+	 * @return
+	 */
 	public List<RoleVO> getRoleList(){
 		
 		List<RoleVO> roleList = null;
@@ -255,8 +343,7 @@ public class MenuService {
 		}
 		
 		return roleList;
-	}
-	
+	}	
 	
 	// function
 	private String parseUrlPathByLevel(String origin, int level) {

@@ -7,6 +7,12 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * 커스텀 에러 페이지용 컨트롤러
+ * 
+ * @author hsyoon
+ *
+ */
 public class CustomErrorController implements ErrorController {
 	
 	@RequestMapping("/error")
@@ -24,7 +30,6 @@ public class CustomErrorController implements ErrorController {
 		}
 		return "common/error/500";
 	}
-
 	
 	@Override
 	public String getErrorPath() {

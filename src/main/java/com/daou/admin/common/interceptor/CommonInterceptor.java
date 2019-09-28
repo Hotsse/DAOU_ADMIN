@@ -188,8 +188,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 	    }
 	    
 	    return true;
-	}
-	
+	}	
 	
 	/**
 	 * 미권한자에 대한 처리
@@ -227,8 +226,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 			e.printStackTrace();
 		}
 		
-	}
-	
+	}	
 	
 	/**
 	 * Request AJAX 여부 확인

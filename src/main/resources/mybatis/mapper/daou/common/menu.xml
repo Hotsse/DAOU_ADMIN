@@ -3,29 +3,7 @@
 
 <mapper namespace="common.menu">
 
-	<select id="getMenu" parameterType="map" resultType="map">
-		SELECT menu_idx as menuIdx
-			, menu_nm as menuNm
-			, menu_path as menuPath
-			, menu_lv as menuLv
-			, parent_menu_idx as parentMenuIdx
-			, sort_order as sortOrder
-		FROM daou_admin_menu (nolock)
-		WHERE menu_idx = #{menuIdx}
-	</select>
-		
-	<select id="getMenuList" parameterType="map" resultType="map">
-		SELECT menu_idx as menuIdx
-			   , menu_nm as menuNm
-			   , menu_path as menuPath
-		FROM daou_admin_menu (nolock)
-		WHERE menu_lv = #{menuLv}
-			<if test="parentMenuIdx != null and parentMenuIdx != 0">
-			AND parent_menu_idx = #{parentMenuIdx}
-			</if>
-		ORDER BY sort_order ASC
-	</select>
-	
+	<!-- 계층별 메뉴 리스트 획득 -->
 	<select id="getAllMenuList" resultType="map">
 		;WITH CTE (menu_idx, menu_nm, menu_path, menu_lv, parent_menu_idx, sort_order, reg_id, reg_dt, mod_id, mod_dt, tree_order) AS (
 			(
@@ -75,8 +53,32 @@
 		ORDER BY tree_order
 	</select>
 	
+	<!-- 메뉴 정보 획득 -->
+	<select id="getMenu" parameterType="map" resultType="map">
+		SELECT menu_idx as menuIdx
+			, menu_nm as menuNm
+			, menu_path as menuPath
+			, menu_lv as menuLv
+			, parent_menu_idx as parentMenuIdx
+			, sort_order as sortOrder
+		FROM daou_admin_menu (nolock)
+		WHERE menu_idx = #{menuIdx}
+	</select>
+		
+	<!-- 메뉴 리스트 획득 -->
+	<select id="getMenuList" parameterType="map" resultType="map">
+		SELECT menu_idx as menuIdx
+			   , menu_nm as menuNm
+			   , menu_path as menuPath
+		FROM daou_admin_menu (nolock)
+		WHERE menu_lv = #{menuLv}
+			<if test="parentMenuIdx != null and parentMenuIdx != 0">
+			AND parent_menu_idx = #{parentMenuIdx}
+			</if>
+		ORDER BY sort_order ASC
+	</select>
 	
-	
+	<!-- 메뉴 등록 -->
 	<insert id="insertMenu" parameterType="map">
 		INSERT INTO daou_admin_menu (
 			menu_nm
@@ -102,6 +104,7 @@
 		)
 	</insert>
 	
+	<!-- 메뉴 수정 -->
 	<update id="updateMenu" parameterType="map">
 		UPDATE daou_admin_menu
 		SET menu_nm = #{menuNm}
@@ -114,12 +117,13 @@
 		WHERE menu_idx = #{menuIdx}
 	</update>
 	
+	<!-- 메뉴 삭제 -->
 	<delete id="deleteMenu" parameterType="map">
 		DELETE FROM daou_admin_menu
 		WHERE menu_idx = #{menuIdx}
 	</delete>
 	
-	
+	<!-- 메뉴 권한 정보 획득 -->
 	<select id="getMenuAuth" parameterType="map" resultType="com.daou.admin.manager.menu.vo.MenuAuthVO">
 		SELECT auth.menu_idx as menuIdx
 			, auth.dept_idx as deptIdx
@@ -136,6 +140,7 @@
 			AND auth.role_idx = #{userRole}
 	</select>
 	
+	<!-- 메뉴 권한 리스트 획득 -->
 	<select id="getMenuAuthList" parameterType="map" resultType="com.daou.admin.manager.menu.vo.MenuAuthVO">
 		SELECT auth.menu_idx as menuIdx
 			, auth.dept_idx as deptIdx
@@ -155,6 +160,7 @@
 		ORDER BY auth.dept_idx ASC, auth.role_idx ASC
 	</select>
 	
+	<!-- 메뉴 권한 등록 -->
 	<insert id="insertMenuAuth" parameterType="map">
 		INSERT INTO daou_admin_menu_auth (
 			menu_idx
@@ -184,6 +190,7 @@
 		)
 	</insert>
 	
+	<!-- 메뉴 권한 수정 -->
 	<update id="updateMenuAuth" parameterType="map">
 		UPDATE daou_admin_menu_auth
 		SET is_retrieve_yn = #{isRetrieveYn}
@@ -195,6 +202,7 @@
 			AND role_idx = #{roleIdx}
 	</update>
 	
+	<!-- 메뉴 권한 삭제 -->
 	<delete id="deleteMenuAuth" parameterType="map">
 		DELETE FROM daou_admin_menu_auth
 		WHERE menu_idx = #{menuIdx}
@@ -202,6 +210,7 @@
 			AND role_idx = #{roleIdx}
 	</delete>
 	
+	<!-- 부서 리스트 획득 -->
 	<select id="getDeptList" resultType="com.daou.admin.manager.dept.vo.DeptVO">
 		SELECT dept_idx as deptIdx
 			, dept_nm as deptNm
@@ -209,6 +218,7 @@
 		ORDER BY dept_idx ASC
 	</select>
 	
+	<!-- 직책 리스트 획득 -->
 	<select id="getRoleList" resultType="com.daou.admin.manager.role.vo.RoleVO">
 		SELECT role_idx as roleIdx
 			, role_nm as roleNm

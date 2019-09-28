@@ -3,6 +3,7 @@
 
 <mapper namespace="common.log">
 
+	<!-- 관리자 활동 획득 -->
 	<select id="getLogList" parameterType="map" resultType="com.daou.admin.manager.log.vo.LogVO">
 		SELECT log_idx as logIdx
 			, log_uri as logUri
@@ -30,6 +31,7 @@
 		ORDER BY log_idx DESC		
 	</select>
 	
+	<!-- 관리자 활동 등록 -->
 	<insert id="insertLog" parameterType="com.daou.admin.manager.log.vo.LogVO">
 		INSERT INTO daou_admin_log (
 			log_uri
