@@ -86,7 +86,7 @@ var openMenuAuthPopup = function(menuIdx){
 			</td>
 			<td>
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-secondary btn-xs" onclick="javascript:openMenuAuthPopup(${list.menuIdx});">권한</button>
+					<button type="button" class="btn btn-secondary btn-xs" onclick="javascript:openMenuAuthPopup(${list.menuIdx});" <c:if test="${list.menuLv <= 1 }">disabled</c:if>>권한</button>
 					<button type="button" class="btn btn-default btn-xs" onclick="javascript:moveInsertForm(${list.menuIdx});">수정</button>
 					<button type="button" class="btn btn-danger btn-xs" onclick="javascript:deleteMenu(${list.menuIdx });">삭제</button>
 				</div>

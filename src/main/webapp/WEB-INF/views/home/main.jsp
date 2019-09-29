@@ -8,6 +8,6 @@
 
 	<p class="form-control-static text-danger">
 		&lt;주의&gt;<br/>
-		주의사항
+		상단 버튼을 통해 각 메뉴로 접근할 수 있습니다
 	</p>
 </div>

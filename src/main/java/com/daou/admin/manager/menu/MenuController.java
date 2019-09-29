@@ -127,20 +127,20 @@ public class MenuController {
 		if(param.get("menuIdx") != null) {			
 			boolean result = this.menuService.updateMenu(param);
 			if(result) {
-				rttr.addFlashAttribute("redirectMsg", "UPDATE-OK");
+				rttr.addFlashAttribute("redirectMsg", "수정이 완료되었습니다.");
 			}
 			else {
-				rttr.addFlashAttribute("redirectMsg", "UPDATE-ERROR");
+				rttr.addFlashAttribute("redirectMsg", "수정에 실패했습니다.");
 			}
 		}
 		// 등록
 		else {			
 			boolean result = this.menuService.insertMenu(param);
 			if(result) {
-				rttr.addFlashAttribute("redirectMsg", "INSERT-OK");
+				rttr.addFlashAttribute("redirectMsg", "등록이 완료 되었습니다.");
 			}
 			else {
-				rttr.addFlashAttribute("redirectMsg", "INSERT-ERROR");
+				rttr.addFlashAttribute("redirectMsg", "등록에 실패했습니다.");
 			}
 		}
 		

@@ -1,6 +1,7 @@
 package com.daou.admin.common.interceptor;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +50,15 @@ public class CommonInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
-				
+		
+		List<String> headerList = (List<String>) res.getHeaderNames();
+		for(String header : headerList) {
+			this.logger.debug("headerlist : " + header);
+		}
+		String xPoweredBy = res.getHeader("X-Powered-By");
+		this.logger.debug("xpoweredboy : " + xPoweredBy);
+		
+		
 		// 로그인 페이지는 인증 처리 없음
 		if(req.getRequestURL().toString().contains("/login"))return true;
 		
@@ -206,7 +215,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 			else {
 				if(authType == AuthType.UNAUTHORIZED) {
 					FlashMap flashMap = new FlashMap();
-					flashMap.put("redirectMsg", "Unauthorized Access");
+					flashMap.put("redirectMsg", "해당 작업에 대한 권한이 없습니다.");
 					FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(req);
 					flashMapManager.saveOutputFlashMap(flashMap, req, res);
 					
@@ -214,7 +223,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 				}
 				else if(authType == AuthType.ILLEGAL) {
 					FlashMap flashMap = new FlashMap();
-					flashMap.put("redirectMsg", "Illegal Access");
+					flashMap.put("redirectMsg", "잘못된 접근입니다.");
 					FlashMapManager flashMapManager = RequestContextUtils.getFlashMapManager(req);
 					flashMapManager.saveOutputFlashMap(flashMap, req, res);
 					

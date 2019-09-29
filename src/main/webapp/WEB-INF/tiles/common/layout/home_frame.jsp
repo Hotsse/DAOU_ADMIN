@@ -24,7 +24,6 @@
 					<div class="col-sm-12">
 						<!-- #content -->
 						<div id="content">
-							<!--tiles:insertAttribute name="guide" /-->
 							<tiles:insertAttribute name="body" />
 						</div>
 						<!-- // #content -->
@@ -35,7 +34,6 @@
 		<!--// #container -->
 		<!-- #footer -->
 		<div id="footer">
-			<!--tiles:insertAttribute name="footer" /-->
 		</div>
 		<!--// #footer -->
 	</div>

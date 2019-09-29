@@ -3,4 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-회원 메뉴 홈
+<h3>회원 메뉴</h3>
+
+<p>좌측 버튼을 통해 상세 메뉴에 접근할 수 있습니다</p>

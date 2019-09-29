@@ -182,13 +182,7 @@ var deleteMenuAuth = function(menuIdx, deptIdx, roleIdx){
 </div>
 
 <!-- 권한 리스트 -->
-<h5>권한 리스트
-	<div class="btn-group" role="group" style="float: right; margin-bottom: 10px;">
-		<button type="button" class="btn btn-danger" onclick="deleteSms();">
-			<span class="glyphicon glyphicon-trash"></span> 권한 전체삭제
-		</button>
-	</div>
-</h5>
+<h5>권한 리스트</h5>
 
 <table id="tableDefault" class="table table-bordered table-hover">
 	<colgroup>

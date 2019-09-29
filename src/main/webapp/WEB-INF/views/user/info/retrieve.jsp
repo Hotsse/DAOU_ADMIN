@@ -55,7 +55,7 @@ var downloadUserInfo = function(){
 
 <h3>회원 조회</h3>
 
-<h5>구분</h5>
+<h5>Action</h5>
 
 <div class="row">
 	<button type="button" class="btn btn-lg btn-primary" onclick="javascript:writeUserInfo();">
