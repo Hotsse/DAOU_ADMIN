@@ -28,15 +28,11 @@ public class UserInfoController {
 	/**
 	 * 회원정보 관리 인덱스
 	 * 
-	 * @param req
-	 * @param res
-	 * @param param
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value="", method = {RequestMethod.GET})
-	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+	public String index() throws Exception {
 		
 		return "redirect:/user/info/retrieve";
 	}
@@ -44,16 +40,12 @@ public class UserInfoController {
 	/**
 	 * 화원정보 조회
 	 * 
-	 * @param req
-	 * @param res
-	 * @param param
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
 	@AuthAction(action=ActionType.RETRIEVE)
 	@RequestMapping(value="/retrieve", method = {RequestMethod.GET})
-	public String retrieve(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+	public String retrieve() throws Exception {
 		
 		return "user/info/retrieve";
 	}
@@ -61,17 +53,13 @@ public class UserInfoController {
 	/**
 	 * 회원정보 등록/수정
 	 * 
-	 * @param req
-	 * @param res
-	 * @param param
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
 	@AuthAction(action=ActionType.WRITE)
 	@RequestMapping(value="/write", method = {RequestMethod.POST})
 	@ResponseBody
-	public String write(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+	public String write() throws Exception {
 		
 		return "200 OK";
 	}
@@ -79,17 +67,13 @@ public class UserInfoController {
 	/**
 	 * 회원정보 삭제
 	 * 
-	 * @param req
-	 * @param res
-	 * @param param
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
 	@AuthAction(action=ActionType.DELETE)
 	@RequestMapping(value="/delete", method = {RequestMethod.POST})
 	@ResponseBody
-	public String delete(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+	public String delete() throws Exception {
 		
 		return "200 OK";
 	}
@@ -97,17 +81,13 @@ public class UserInfoController {
 	/**
 	 * 회원정보 다운로드
 	 * 
-	 * @param req
-	 * @param res
-	 * @param param
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
 	@AuthAction(action=ActionType.DOWNLOAD)
 	@RequestMapping(value="/download", method = {RequestMethod.POST})
 	@ResponseBody
-	public String download(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+	public String download() throws Exception {
 		
 		return "200 OK";
 	}
