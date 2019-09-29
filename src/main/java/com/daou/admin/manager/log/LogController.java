@@ -33,15 +33,11 @@ public class LogController {
 	/**
 	 * 관리자 활동 관리 인덱스
 	 * 
-	 * @param req
-	 * @param res
-	 * @param param
-	 * @param model
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value="", method = {RequestMethod.GET})
-	public String index(HttpServletRequest req, HttpServletResponse res, @RequestParam Map<String, Object> param, ModelMap model) throws Exception {
+	public String index() throws Exception {
 		
 		return "redirect:/manager/log/retrieve";
 	}

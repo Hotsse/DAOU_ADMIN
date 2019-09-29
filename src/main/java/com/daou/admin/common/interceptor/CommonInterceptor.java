@@ -50,15 +50,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
-		
-		List<String> headerList = (List<String>) res.getHeaderNames();
-		for(String header : headerList) {
-			this.logger.debug("headerlist : " + header);
-		}
-		String xPoweredBy = res.getHeader("X-Powered-By");
-		this.logger.debug("xpoweredboy : " + xPoweredBy);
-		
-		
+			
 		// 로그인 페이지는 인증 처리 없음
 		if(req.getRequestURL().toString().contains("/login"))return true;
 		
