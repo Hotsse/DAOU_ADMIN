@@ -1,7 +1,6 @@
 package com.daou.admin.common.interceptor;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
